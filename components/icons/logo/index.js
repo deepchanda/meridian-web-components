@@ -1,32 +1,22 @@
 import { html } from "/node_modules/lit-html/lit-html.js";
 import theme from "/theme.js";
 import aruba from "./svgs/aruba.js";
+import meridian from "./svgs/meridian.js";
 
 export default html`
   <style>
-    .aruba {
-      fill: ${theme.colorArubaOrange100};
-      width: 119px;
-      height: 30px;
+    .logo {
+      display: flex;
+      align-items: center;
+      height: 60px;
     }
-    .meridian {
-      height: 20px;
-      width: 96px;
-      fill: ${theme.colorMeridianGray100};
-    }
-    .eu {
-      height: 20px;
-      width: 23.75px;
-      fill: ${theme.colorMeridianGray100};
-    }
-    .horizontal-meridian-column {
-      margin-top: 4px;
-    }
-    .horizontal-eu-column {
-      margin-top: 8px;
+    .divider {
+      width: 20px;
     }
   </style>
-  <span class="aruba">
-    ${aruba}
+  <span class="logo">
+    <span>${aruba}</span>
+    <span class="divider"></span>
+    <span>${meridian}</span>
   </span>
 `;
