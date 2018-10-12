@@ -10,7 +10,7 @@ const app = () => html`
         "header header header"
         "navigation content content"
         "footer footer footer";
-      height: 100vh;
+      min-height: 100vh;
     }
     #header {
       grid-area: header;
@@ -33,12 +33,16 @@ const app = () => html`
     <div id="header">
       ${header("development", "Erik's Location")}
     </div>
-    <div id="navigation">Navigation</div>
+    <div id="navigation"></div>
     <div id="content">
-      <meridian-button kind="primary"></meridian-button>
+      <meridian-button>Primary</meridian-button>
+      <meridian-button kind="primary">Primary</meridian-button>
+      <meridian-button kind="secondary">Secondary</meridian-button>
+      <meridian-button kind="tertiary">Tertiary</meridian-button>
+      <meridian-button kind="danger">Danger</meridian-button>
       <button>I'm styled by a global button style</button>
     </div>
-    <div id="footer">Footer</div>
+    <div id="footer"></div>
   </div>
 `;
 
