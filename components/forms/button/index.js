@@ -1,181 +1,58 @@
+import { html, render } from '/node_modules/lit-html/lit-html.js';
+import theme from "/theme.js";
 
-export default const Button = () => {
-  static propTypes = {
-    /** Sets an id attribute on the html element to enable QA automation testing */
-    id: PropTypes.string,
-    /** Preset styles */
-    kind: PropTypes.oneOf([
-      "primary",
-      "secondary",
-      "tertiary",
-      "danger",
-      "success",
-      "toggle",
-      "white",
-      "link",
-    ]),
-    /** Preset grouping */
-    group: PropTypes.oneOf([
-      "left",
-      "center",
-      "right",
-      "top",
-      "middle",
-      "bottom",
-    ]),
-    /** Preset sizes */
-    size: PropTypes.oneOf(["small", "large"]).isRequired,
-    /** Set icon */
-    icon: PropTypes.string,
-    /** icon alignment */
-    iconAlign: PropTypes.oneOf(["left", "right"]).isRequired,
-    /** Make this be a submit button */
-    submit: PropTypes.bool,
-    /** Set active state */
-    active: PropTypes.bool,
-    /** Set disabled state */
-    disabled: PropTypes.bool,
-    /** onClick handler */
-    onClick: PropTypes.func,
-    /** onMouseDown handler */
-    onMouseDown: PropTypes.func,
-    /** onMouseUp handler */
-    onMouseUp: PropTypes.func,
-    /** Add custom className */
-    className: PropTypes.string,
-    /** Add custom inline styles */
-    style: PropTypes.object,
-    /** horizontal align of button columns */
-    horizontalAlign: Columns.propTypes.horizontalAlign,
-    /** children */
-    children: PropTypes.any,
-  };
-  static defaultProps = {
-    kind: "primary",
-    size: "large",
-    submit: false,
-    active: false,
-    disabled: false,
-    focus: false,
-    hover: false,
-    horizontalAlign: "center",
-    iconAlign: "left",
-  };
-  getId() {
-    const props = this.props;
-    let id = null;
-    let name = null;
-    if (this.hasName()) {
-      name = props.children
-        .toString()
-        .toLowerCase()
-        .replace(/ /g, "-");
-    }
-    if (props.id) {
-      id = props.id;
-    } else if (this.hasIcon() && this.hasName()) {
-      id = `${props.icon}-${name}`;
-    } else if (this.hasIcon()) {
-      id = props.icon;
-    } else if (this.hasName()) {
-      id = name;
-    }
-    return id;
+customElements.define("meridian-button", class extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
   }
-  hasIcon() {
-    const props = this.props;
-    if (props.icon) {
-      return true;
-    }
-    return false;
+  static get observedAttributes() { return ["kind"]; }
+  get kind() {
+    return this.getAttribute("kind");
   }
-  renderIcon() {
-    const { icon, iconAlign, size } = this.props;
-    let className;
-    if (this.hasIcon() && this.hasName()) {
-      className =
-        iconAlign === "left"
-          ? styles.iconWithNameOnRight
-          : styles.iconWithNameOnLeft;
-    } else {
-      className = styles.icon;
-    }
-    if (this.hasIcon()) {
-      return (
-        <Column className={className}>
-          <Icon icon={icon} size={size} />
-        </Column>
-      );
-    }
-    return null;
+  attributeChangedCallback(attrName, oldVal, newVal) {
+    console.log(attrName, oldVal, newVal);
+    this.render();
   }
-  hasName() {
-    const props = this.props;
-    if (props.children) {
-      return true;
-    }
-    return false;
+  async connectedCallback() {
+    this.render();
   }
-  renderName() {
-    const { children, iconAlign } = this.props;
-    let className;
-    if (this.hasName() && this.hasIcon()) {
-      className =
-        iconAlign === "left"
-          ? styles.nameWithIconOnLeft
-          : styles.nameWithIconOnRight;
-    } else {
-      className = styles.name;
-    }
-    if (this.hasName()) {
-      return <Column className={className}>{children}</Column>;
-    }
-    return null;
+  onClick() {
+    console.log("button clicked!");
   }
   render() {
-    const props = this.props;
-    const className = classnames(
-      styles.default,
-      styles[props.kind],
-      styles[props.size],
-      props.group && styles[props.group],
-      props.active && styles.active,
-      props.submit && styles.submit,
-      props.disabled && styles.disabled,
-      props.className,
-    );
-    if (props.submit) {
-      return (
-        <button
-          type="submit"
-          id={this.getId()}
-          className={className}
-          style={props.style}
-          onMouseDown={(!props.disabled && props.onMouseDown) || null}
-          onMouseUp={(!props.disabled && props.onMouseUp) || null}
-        >
-          <Columns grow>
-            {props.iconAlign === "left" && this.renderIcon()}
-            {this.renderName()}
-            {props.iconAlign === "right" && this.renderIcon()}
-          </Columns>
-        </button>
-      );
-    }
-    return (
-      <Columns
-        id={this.getId()}
-        className={className}
-        horizontalAlign={props.horizontalAlign}
-        style={props.style}
-        onClick={(!props.disabled && props.onClick) || null}
-        onMouseDown={(!props.disabled && props.onMouseDown) || null}
-        onMouseUp={(!props.disabled && props.onMouseUp) || null}
-      >
-        {props.iconAlign === "left" && this.renderIcon()}
-        {this.renderName()}
-        {props.iconAlign === "right" && this.renderIcon()}
-      </Columns>
-    );
+    render(html`
+      <style>
+        button {
+          display: inline-flex;
+          box-sizing: border-box;
+          font-family: ${theme.fontFamilyOpenSans};
+          font-size: ${theme.fontSizeSmall};
+          -webkit-font-smoothing: antialiased;
+          font-weight: ${theme.fontWeightBold};
+          color: ${theme.colorMediumDarkGray100};
+          background-color: ${theme.colorWhite100};
+          cursor: pointer;
+          transition: ${theme.transitionAllFast};
+          pointer-events: all;
+          border-radius: ${theme.borderRadius};
+          border: 1px solid transparent;
+          -webkit-appearance: none;
+          padding: 0;
+          user-select: none;
+        }
+        .primary {
+          background-color: ${theme.colorNavy100};
+          color: ${theme.colorWhite100};
+          fill: ${theme.colorWhite100};
+          &:hover {
+            background-color: ${theme.colorNavy90};
+          }
+        }
+      </style>
+      <button class="${this.kind}" @click="${this.onClick}">
+        <slot id="name">My styles are isolated in my Shadow DOM</slot>
+      </button>
+    `, this.shadowRoot);
   }
-}
+});
