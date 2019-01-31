@@ -1,7 +1,7 @@
 import { html } from "/node_modules/lit-html/lit-html.js";
-import logo from "/components/icons/logo/index.js";
+import logo from "./Logo.js";
+import text from "./Text.js";
 import theme from "/theme.js";
-import text from "/components/typography/text/index.js";
 
 export default (environment, locationName) => html`
   <style>

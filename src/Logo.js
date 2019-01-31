@@ -1,7 +1,7 @@
 import { html } from "/node_modules/lit-html/lit-html.js";
 import theme from "/theme.js";
-import aruba from "./svgs/aruba.js";
-import meridian from "./svgs/meridian.js";
+import aruba from "./assets/Logo/aruba.js";
+import meridian from "./assets/Logo/meridian.js";
 
 export default html`
   <style>

@@ -1,6 +1,6 @@
 import { html, render } from '/node_modules/lit-html/lit-html.js';
-import header from "/components/layout/header/index.js";
-import "/components/forms/button/index.js";
+import header from "./src/Header.js";
+import "./src/Button.js";
 
 const app = () => html`
   <style>
